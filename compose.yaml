@@ -1,0 +1,30 @@
+name: hermes
+
+services:
+  hermes:
+    image: nousresearch/hermes-agent:${HERMES_IMAGE_TAG}
+    container_name: hermes
+    restart: unless-stopped
+    command: gateway run
+    ports:
+      - "${DASHBOARD_BIND_ADDR}:9119:9119"
+    volumes:
+      - ./data:/opt/data
+    environment:
+      HERMES_DASHBOARD: "1"
+      HERMES_DASHBOARD_BASIC_AUTH_USERNAME: ${DASHBOARD_USERNAME}
+      HERMES_DASHBOARD_BASIC_AUTH_PASSWORD: ${DASHBOARD_PASSWORD}
+      HERMES_DASHBOARD_BASIC_AUTH_SECRET: ${DASHBOARD_SESSION_SECRET}
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+    mem_limit: ${HERMES_MEMORY_LIMIT}
+    cpus: ${HERMES_CPU_LIMIT}
