@@ -5,18 +5,10 @@ Run Hermes Agent with a local-only dashboard at <http://localhost:9119>.
 ## Architecture
 
 ```mermaid
-flowchart TB
-  User[User] -->|localhost:9119| Dashboard[Hermes dashboard]
-  subgraph Host[Docker host]
-    subgraph Container[Hermes container]
-      Dashboard
-      Gateway[Hermes gateway]
-      Agent[Hermes CLI / agent]
-      Dashboard --- Gateway --- Agent
-    end
-    Data[(./data)] <-->|only bind mount| Container
-  end
-  Agent -->|HTTPS| Provider[Model provider API]
+flowchart LR
+  User[User] -->|localhost:9119| Hermes[Hermes container]
+  Hermes <-->|data| Data[(./data)]
+  Hermes -->|HTTPS| Provider[Model API]
 ```
 
 ## Setup
