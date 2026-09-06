@@ -2,6 +2,23 @@
 
 پنل: <http://localhost:9119>
 
+## معماری
+
+```mermaid
+flowchart TB
+  User[کاربر] -->|localhost:9119| Dashboard[پنل Hermes]
+  subgraph Host[میزبان Docker]
+    subgraph Container[کانتینر Hermes]
+      Dashboard
+      Gateway[Hermes gateway]
+      Agent[Hermes CLI / agent]
+      Dashboard --- Gateway --- Agent
+    end
+    Data[(./data)] <-->|تنها bind mount| Container
+  end
+  Agent -->|HTTPS| Provider[API مدل]
+```
+
 ## راه‌اندازی
 
 macOS / Linux:
