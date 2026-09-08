@@ -1,0 +1,11 @@
+services:
+  hermes:
+    working_dir: /workspace
+
+    volumes:
+      - type: bind
+        source: ${PROJECT_DIR:?Set PROJECT_DIR to an absolute project directory}
+        target: /workspace
+
+    environment:
+      - HERMES_WRITE_SAFE_ROOT=/opt/data:/workspace
